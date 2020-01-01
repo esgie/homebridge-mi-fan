@@ -62,7 +62,7 @@ DmakerFanAccessory.prototype.getServices = function() {
     var lockPhysicalControlsCharacteristic = fanService.addCharacteristic(Characteristic.LockPhysicalControls);
     var swingModeControlsCharacteristic = fanService.addCharacteristic(Characteristic.SwingMode);
     var rotationSpeedCharacteristic = fanService.addCharacteristic(Characteristic.RotationSpeed);
-    var rotationDirectionCharacteristic = fanService.addCharacteristic(Characteristic.RotationDirection);
+    var targetFanStateCharacteristic = fanService.addCharacteristic(Characteristic.TargetFanState);
 
     activeCharacteristic
         .on('get', function(callback) {
@@ -180,31 +180,31 @@ DmakerFanAccessory.prototype.getServices = function() {
             });
 	}.bind(this));
     
-	rotationDirectionCharacteristic
+	targetFanStateCharacteristic
 	    .on('get', function(callback) {
 		that.device.call("get_prop", ["all"]).then(result => {
-		that.platform.log.debug("[MiFanPlatform][DEBUG]DmakerFanAccessory - RotationDirection - getRotationDirection: " + result);
+		that.platform.log.debug("[MiFanPlatform][DEBUG]DmakerFanAccessory - targetFanState - gettargetFanState: " + result);
 	            if (result[1] === "normal") {
-			callback(null, Characteristic.RotationDirection.CLOCKWISE);
+			callback(null, 0);
 		    } else {
-			callback(null, Characteristic.RotationDirection.COUNTER_CLOCKWISE);
+			callback(null, 1);
 		    }
 		}).catch(function(err) {
-	           that.platform.log.error("[MiFanPlatform][ERROR]DmakerFanAccessory - RotationDirection - getRotationDirection Error: " + err);
+	           that.platform.log.error("[MiFanPlatform][ERROR]DmakerFanAccessory - targetFanState - gettargetFanState Error: " + err);
                    callback(err);
                 });
              }.bind(this))
 	     .on('set', function(value, callback) {
-		  that.platform.log.debug("[MiFanPlatform][DEBUG]DmakerFanAccessory - RotationDirection - setRotationDirection: " + value);
-		  that.device.call("s_mode", [value ? "normal" : "nature"]).then(result => {
-			that.platform.log.debug("[MiFanPlatform][DEBUG]DmakerFanAccessory - RotationDirection - setRotationDirection Result: " + result);
+		  that.platform.log.debug("[MiFanPlatform][DEBUG]DmakerFanAccessory - targetFanState - settargetFanState: " + value);
+		  that.device.call("s_mode", [value ? "nature" : "normal"]).then(result => {
+			that.platform.log.debug("[MiFanPlatform][DEBUG]DmakerFanAccessory - targetFanState - settargetFanState Result: " + result);
                         if(result[0] === "ok") {
                              callback(null);
                         } else {
                              callback(new Error(result[0]));
                         }
 	            }).catch(function(err) {
-			that.platform.log.error("[MiFanPlatform][ERROR]DmakerFanAccessory - RotationDirection - setRotationDirection Error: " + err);
+			that.platform.log.error("[MiFanPlatform][ERROR]DmakerFanAccessory - targetFanState - settargetFanState Error: " + err);
                         callback(err);
 	            });
 	    }.bind(this));
