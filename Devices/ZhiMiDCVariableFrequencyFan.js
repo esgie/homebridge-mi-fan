@@ -152,41 +152,41 @@ ZhiMiDCVFFanFanAccessory.prototype.getServices = function() {
     targetFanStateCharacteristic
         .on('get', function(callback) {
             that.device.call("get_prop", ["natural_level"]).then(result => {
-                that.platform.log.debug("[MiFanPlatform][DEBUG]ZhiMiDCVFFanFanAccessory - RotationDirection - getRotationDirection: " + result);
+                that.platform.log.debug("[MiFanPlatform][DEBUG]ZhiMiDCVFFanFanAccessory - TargetFanState - getTargetFanState: " + result);
                 if(result[0] > 0) {
                     callback(null, 1);
                 } else {
                     callback(null, 0);
                 }
             }).catch(function(err) {
-                that.platform.log.error("[MiFanPlatform][ERROR]ZhiMiDCVFFanFanAccessory - RotationDirection - getRotationDirection Error: " + err);
+                that.platform.log.error("[MiFanPlatform][ERROR]ZhiMiDCVFFanFanAccessory - TargetFanState - getTargetFanState Error: " + err);
                 callback(err);
             });
         }.bind(this))
         .on('set', function(value, callback, context) {
-            that.platform.log.debug("[MiFanPlatform][DEBUG]ZhiMiDCVFFanFanAccessory - RotationDirection - setRotationDirection: " + value);
+            that.platform.log.debug("[MiFanPlatform][DEBUG]ZhiMiDCVFFanFanAccessory - TargetFanState - setTargetFanState: " + value);
             if(1 == value) {
                 that.device.call("set_natural_level", [rotationSpeedCharacteristic.value]).then(result => {
-                    that.platform.log.debug("[MiFanPlatform][DEBUG]ZhiMiDCVFFanFanAccessory - RotationDirection - setRotationDirection Result: " + result);
+                    that.platform.log.debug("[MiFanPlatform][DEBUG]ZhiMiDCVFFanFanAccessory - TargetFanState - setTargetFanState Result: " + result);
                     if(result[0] === "ok") {
                         callback(null);
                     } else {
                         callback(new Error(result[0]));
                     }
                 }).catch(function(err) {
-                    that.platform.log.error("[MiFanPlatform][ERROR]ZhiMiDCVFFanFanAccessory - RotationDirection - setRotationDirection Error: " + err);
+                    that.platform.log.error("[MiFanPlatform][ERROR]ZhiMiDCVFFanFanAccessory - TargetFanState - setTargetFanState Error: " + err);
                     callback(err);
                 });
             } else {
                 that.device.call("set_speed_level", [rotationSpeedCharacteristic.value]).then(result => {
-                    that.platform.log.debug("[MiFanPlatform][DEBUG]ZhiMiDCVFFanFanAccessory - RotationDirection - setRotationDirection Result: " + result);
+                    that.platform.log.debug("[MiFanPlatform][DEBUG]ZhiMiDCVFFanFanAccessory - TargetFanState - setTargetFanState Result: " + result);
                     if(result[0] === "ok") {
                         callback(null);
                     } else {
                         callback(new Error(result[0]));
                     }
                 }).catch(function(err) {
-                    that.platform.log.error("[MiFanPlatform][ERROR]ZhiMiDCVFFanFanAccessory - RotationDirection - setRotationDirection Error: " + err);
+                    that.platform.log.error("[MiFanPlatform][ERROR]ZhiMiDCVFFanFanAccessory - TargetFanState - setTargetFanState Error: " + err);
                     callback(err);
                 });
             }
