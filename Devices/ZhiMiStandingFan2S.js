@@ -23,12 +23,6 @@ ZhiMiNaturalWindFan = function(platform, config) {
     if(!this.config['fanDisable'] && this.config['fanName'] && this.config['fanName'] != "") {
         this.accessories['fanAccessory'] = new ZhiMiFWFanFanAccessory(this);
     }
-    if(!this.config['temperatureDisable'] && this.config['temperatureName'] && this.config['temperatureName'] != "") {
-        this.accessories['temperatureAccessory'] = new ZhiMiFWFanTemperatureAccessory(this);
-    }
-    if(!this.config['humidityDisable'] && this.config['humidityName'] && this.config['humidityName'] != "") {
-        this.accessories['humidityAccessory'] = new ZhiMiFWFanHumidityAccessory(this);
-    }
     if(!this.config['buzzerSwitchDisable'] && this.config['buzzerSwitchName'] && this.config['buzzerSwitchName'] != "") {
         this.accessories['buzzerSwitchAccessory'] = new ZhiMiFWFanBuzzerSwitchAccessory(this);
     }
@@ -237,101 +231,8 @@ ZhiMiFWFanFanAccessory.prototype.getServices = function() {
                 }
             }
         }.bind(this));
-
-    currentTemperatureCharacteristic.on('get', function(callback) {
-        this.device.call("get_prop", ["temp_dec"]).then(result => {
-            that.platform.log.debug("[MiFanPlatform][DEBUG]ZhiMiFWFanFanAccessory - Temperature - getTemperature: " + result);
-            callback(null, result[0] / 10);
-        }).catch(function(err) {
-            that.platform.log.error("[MiFanPlatform][ERROR]ZhiMiFWFanFanAccessory - Temperature - getTemperature Error: " + err);
-            callback(err);
-        });
-    }.bind(this));
-        
-    currentRelativeHumidityCharacteristic.on('get', function(callback) {
-        this.device.call("get_prop", ["humidity"]).then(result => {
-            that.platform.log.debug("[MiFanPlatform][DEBUG]ZhiMiFWFanFanAccessory - Humidity - getHumidity: " + result);
-            callback(null, result[0]);
-        }).catch(function(err) {
-            that.platform.log.error("[MiFanPlatform][ERROR]ZhiMiFWFanFanAccessory - Humidity - getHumidity Error: " + err);
-            callback(err);
-        });
-    }.bind(this));
     services.push(fanService);
-
     return services;
-}
-
-ZhiMiFWFanTemperatureAccessory = function(dThis) {
-    this.device = dThis.device;
-    this.name = dThis.config['temperatureName'];
-    this.platform = dThis.platform;
-}
-
-ZhiMiFWFanTemperatureAccessory.prototype.getServices = function() {
-    var services = [];
-
-    var infoService = new Service.AccessoryInformation();
-    infoService
-        .setCharacteristic(Characteristic.Manufacturer, "XiaoMi")
-        .setCharacteristic(Characteristic.Model, "ZhiMi NW Fan")
-        .setCharacteristic(Characteristic.SerialNumber, "Undefined");
-    services.push(infoService);
-    
-    var temperatureService = new Service.TemperatureSensor(this.name);
-    temperatureService
-        .getCharacteristic(Characteristic.CurrentTemperature)
-        .on('get', this.getTemperature.bind(this))
-    services.push(temperatureService);
-    
-    return services;
-}
-
-ZhiMiFWFanTemperatureAccessory.prototype.getTemperature = function(callback) {
-    var that = this;
-    this.device.call("get_prop", ["temp_dec"]).then(result => {
-        that.platform.log.debug("[MiFanPlatform][DEBUG]ZhiMiFWFanTemperatureAccessory - Temperature - getTemperature: " + result);
-        callback(null, result[0] / 10);
-    }).catch(function(err) {
-        that.platform.log.error("[MiFanPlatform][ERROR]ZhiMiFWFanTemperatureAccessory - Temperature - getTemperature Error: " + err);
-        callback(err);
-    });
-}
-
-ZhiMiFWFanHumidityAccessory = function(dThis) {
-    this.device = dThis.device;
-    this.name = dThis.config['humidityName'];
-    this.platform = dThis.platform;
-}
-
-ZhiMiFWFanHumidityAccessory.prototype.getServices = function() {
-    var services = [];
-
-    var infoService = new Service.AccessoryInformation();
-    infoService
-        .setCharacteristic(Characteristic.Manufacturer, "XiaoMi")
-        .setCharacteristic(Characteristic.Model, "ZhiMi NW Fan")
-        .setCharacteristic(Characteristic.SerialNumber, "Undefined");
-    services.push(infoService);
-    
-    var humidityService = new Service.HumiditySensor(this.name);
-    humidityService
-        .getCharacteristic(Characteristic.CurrentRelativeHumidity)
-        .on('get', this.getHumidity.bind(this))
-    services.push(humidityService);
-
-    return services;
-}
-
-ZhiMiFWFanHumidityAccessory.prototype.getHumidity = function(callback) {
-    var that = this;
-    this.device.call("get_prop", ["humidity"]).then(result => {
-        that.platform.log.debug("[MiFanPlatform][DEBUG]ZhiMiFWFanHumidityAccessory - Humidity - getHumidity: " + result);
-        callback(null, result[0]);
-    }).catch(function(err) {
-        that.platform.log.error("[MiFanPlatform][ERROR]ZhiMiFWFanHumidityAccessory - Humidity - getHumidity Error: " + err);
-        callback(err);
-    });
 }
 
 ZhiMiFWFanBuzzerSwitchAccessory = function(dThis) {
