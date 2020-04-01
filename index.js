@@ -1,7 +1,4 @@
-require('./Devices/ZhiMiDCVariableFrequencyFan');
-require('./Devices/ZhiMiNaturalWindFan');
-require('./Devices/MiDCVariableFrequencyFan');
-require('./Devices/DmakerFan');
+require('./Devices/ZhiMiStandingFan2S');
 
 var fs = require('fs');
 var packageFile = require("./package.json");
@@ -84,20 +81,8 @@ MiFanPlatform.prototype = {
                     continue;
                 }
                 
-                if (deviceCfg['type'] == "ZhiMiDCVariableFrequencyFan") {
+                if (deviceCfg['type'] == "ZhiMiStandingFan2S") {
                     new ZhiMiDCVariableFrequencyFan(this, deviceCfg).forEach(function(accessory, index, arr){
-                        myAccessories.push(accessory);
-                    });
-                } else if (deviceCfg['type'] == "ZhiMiNaturalWindFan") {
-                    new ZhiMiNaturalWindFan(this, deviceCfg).forEach(function(accessory, index, arr){
-                        myAccessories.push(accessory);
-                    });
-                } else if (deviceCfg['type'] == "MiDCVariableFrequencyFan") {
-                    new MiDCVariableFrequencyFan(this, deviceCfg).forEach(function(accessory, index, arr){
-                        myAccessories.push(accessory);
-                    });
-                } else if (deviceCfg['type'] == "DmakerFan") {
-                    new DmakerFan(this, deviceCfg).forEach(function(accessory, index, arr){
                         myAccessories.push(accessory);
                     });
                 } else {
