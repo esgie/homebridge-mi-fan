@@ -82,7 +82,7 @@ MiFanPlatform.prototype = {
                 }
                 
                 if (deviceCfg['type'] == "ZhiMiStandingFan2S") {
-                    new ZhiMiDCVariableFrequencyFan(this, deviceCfg).forEach(function(accessory, index, arr){
+                    new ZhiMiStandingFan2S(this, deviceCfg).forEach(function(accessory, index, arr){
                         myAccessories.push(accessory);
                     });
                 } else {
