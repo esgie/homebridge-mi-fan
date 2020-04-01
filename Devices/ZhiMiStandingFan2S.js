@@ -5,7 +5,7 @@ const miio = require('miio');
 
 var Accessory, PlatformAccessory, Service, Characteristic, UUIDGen;
 
-ZhiMiNaturalWindFan = function(platform, config) {
+ZhiMiStandingFan2S = function(platform, config) {
     this.init(platform, config);
     
     Accessory = platform.Accessory;
@@ -35,7 +35,7 @@ ZhiMiNaturalWindFan = function(platform, config) {
     
     return accessoriesArr;
 }
-inherits(ZhiMiNaturalWindFan, Base);
+inherits(ZhiMiStandingFan2S, Base);
 
 ZhiMiFWFanFanAccessory = function(dThis) {
     this.device = dThis.device;
