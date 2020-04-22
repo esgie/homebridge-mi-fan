@@ -15,7 +15,7 @@ module.exports = function(homebridge) {
     Characteristic = homebridge.hap.Characteristic;
     UUIDGen = homebridge.hap.uuid;
 
-    homebridge.registerPlatform('homebridge-mi-fan', 'MiFanPlatform', MiFanPlatform, true);
+    homebridge.registerPlatform('homebridge-mi-fan-2s-lite', 'MiFanPlatform', MiFanPlatform, true);
 }
 
 function isConfig(configFile, type, name) {
