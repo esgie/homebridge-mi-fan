@@ -1,4 +1,4 @@
-require('./Devices/ZhiMiStandingFan2S');
+require('./Devices/ZhiMiFan2S');
 
 var fs = require('fs');
 var packageFile = require("./package.json");
@@ -80,9 +80,9 @@ MiFanPlatform.prototype = {
                 if(null == deviceCfg['token'] || "" == deviceCfg['token'] || null == deviceCfg['ip'] || "" == deviceCfg['ip']) {
                     continue;
                 }
-                
-                if (deviceCfg['type'] == "ZhiMiStandingFan2S") {
-                    new ZhiMiStandingFan2S(this, deviceCfg).forEach(function(accessory, index, arr){
+
+                if (deviceCfg['type'] == "ZhiMiFan2S") {
+                    new ZhiMiFan2S(this, deviceCfg).forEach(function(accessory, index, arr){
                         myAccessories.push(accessory);
                     });
                 } else {
