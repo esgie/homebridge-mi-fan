@@ -75,7 +75,7 @@ MiFanPlatform.prototype = {
             for (var i = 0; i < deviceCfgs.length; i++) {
                 var deviceCfg = deviceCfgs[i];
                 if(null == deviceCfg['type'] || "" == deviceCfg['type']) {
-                    continue;
+                    deviceCfg['type'] = "ZhiMiFan2S";
                 }
                 if(null == deviceCfg['token'] || "" == deviceCfg['token'] || null == deviceCfg['ip'] || "" == deviceCfg['ip']) {
                     continue;
